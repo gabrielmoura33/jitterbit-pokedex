@@ -5,14 +5,7 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
-      import('./modules/home/home.module').then((m) => m.HomeModule),
-  },
-  {
-    path: 'detail',
-    loadChildren: () =>
-      import('./modules/pokemon-detail/pokemon-detail.module').then(
-        (m) => m.PokemonDetailModule
-      ),
+      import('./modules/pokemon/pokemon.module').then((m) => m.PokemonModule),
   },
   { path: '**', redirectTo: '' },
 ];
