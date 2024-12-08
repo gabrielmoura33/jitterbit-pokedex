@@ -32,15 +32,4 @@ export class HomePage implements OnInit {
     this.loadPokemons();
   }
 
-  search() {
-    if (this.searchTerm.trim()) {
-      this.pokemonService.searchPokemon(this.searchTerm).subscribe((data) => {
-        this.pokemons$.next(data);
-      });
-    } else {
-      this.offset = 0;
-      this.pokemons$.next([]);
-      this.loadPokemons();
-    }
-  }
 }
