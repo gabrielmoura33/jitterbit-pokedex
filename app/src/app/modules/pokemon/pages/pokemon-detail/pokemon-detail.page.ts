@@ -4,7 +4,6 @@ import axios from 'axios';
 import _ from 'lodash';
 import { typeClass } from '../../../../utils/type-classes';
 
-
 @Component({
   selector: 'app-pokemon-detail',
   templateUrl: './pokemon-detail.page.html',
@@ -13,6 +12,7 @@ import { typeClass } from '../../../../utils/type-classes';
 export class PokemonDetailPage implements OnInit {
   pokemonId!: string;
   pokemonDetails: any;
+  pokemonDescription: string = '';
   pokemonImage: string = '';
   tailwindClass: string = 'bg-grayscale-background';
 
@@ -23,6 +23,7 @@ export class PokemonDetailPage implements OnInit {
       this.pokemonId = params.get('id')!;
       if (this.pokemonId) {
         this.fetchPokemonDetails(this.pokemonId);
+        this.fetchPokemonDescription(this.pokemonId);
       }
     });
   }
@@ -43,6 +44,22 @@ export class PokemonDetailPage implements OnInit {
       );
     } catch (error) {
       console.error('Erro ao buscar os detalhes do Pokémon:', error);
+    }
+  }
+
+  async fetchPokemonDescription(id: string) {
+    try {
+      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon-species/${id}/`);
+      const descriptions = response.data.flavor_text_entries;
+
+      // Busca a descrição no idioma inglês
+      const englishDescription = descriptions.find(
+        (entry: any) => entry.language.name === 'en'
+      )?.flavor_text;
+
+      this.pokemonDescription = englishDescription?.replace(/[\n\f]/g, ' ') || 'Description not available.';
+    } catch (error) {
+      console.error('Erro ao buscar a descrição do Pokémon:', error);
     }
   }
 }
