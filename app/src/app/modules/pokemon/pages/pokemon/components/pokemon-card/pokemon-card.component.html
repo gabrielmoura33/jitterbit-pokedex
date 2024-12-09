@@ -1,10 +1,11 @@
 <div
   class="flex flex-col items-center bg-grayscale-white rounded-lg p-4 border border-gray-200 cursor-pointer hover:opacity-80 transition-opacity relative shadow-pokemon-card"
+  (click)="redirectToDetails()"
 >
   <div class="z-20">
     <img [src]="pokemon.image" [alt]="pokemon.name" class="w-[6rem] h-[6rem] object-contain z-20" />
     <p class="text-grayscale-medium text-sm font-poppins absolute right-3 top-0 z-20">#{{ pokemon.id }}</p>
-    <div class=" text-center z-20">
+    <div class="text-center z-20">
       <p class="text-grayscale-dark text-lg font-poppins font-normal">{{ pokemon.name }}</p>
     </div>
   </div>

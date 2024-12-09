@@ -1,11 +1,11 @@
 <div class="pt-6 pb-2 px-2 h-full">
-  <div *ngIf="pokemons.length === 0" class="text-center text-gray-600">
-    <p class="text-lg font-medium">Não há Pokémons disponíveis no momento.</p>
-  </div>
-
   <div class="flex flex-col bg-grayscale-white rounded-md p-4 min-h-full">
-    <div *ngIf="pokemons.length > 0" class="grid grid-cols-3 gap-2 overflow-y-auto max-h-[50rem] no-scrollbar pb-10">
+    <div *ngIf="pokemons.length > 0" class="grid grid-cols-3 gap-2 overflow-y-auto max-h-[50rem] no-scrollbar pb-10" #scrollContainer     (scroll)="onScroll()"
+      >
       <app-pokemon-card *ngFor="let pokemon of pokemons" [pokemon]="pokemon"></app-pokemon-card>
+      <div *ngIf="pokemons.length === 0" class="text-center text-gray-600">
+        <p class="text-lg font-medium">Não há Pokémons disponíveis no momento.</p>
+      </div>
     </div>
   </div>
 </div>

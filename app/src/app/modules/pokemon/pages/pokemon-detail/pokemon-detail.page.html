@@ -1,6 +1,9 @@
 <div [ngClass]="tailwindClass" class="flex flex-col h-screen w-[32.5rem] relative p-2">
   <div class="flex justify-between px-4 py-6 h-[45%]">
-    <div>
+    <div class="flex gap-4">
+      <a class="cursor-pointer hover:opacity-80 transition-opacity" (click)="goBack()">
+        <img src="assets/icons/chevron-back.svg" alt="">
+      </a>
       <h1 class="text-3xl text-white font-bold">{{ pokemonDetails?.name | titlecase }}</h1>
     </div>
     <span class="text-xl text-white">#{{ pokemonDetails?.id }}</span>

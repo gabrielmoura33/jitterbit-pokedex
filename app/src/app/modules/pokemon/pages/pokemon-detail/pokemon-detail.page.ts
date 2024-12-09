@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import axios from 'axios';
-import _ from 'lodash';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PokemonService } from '../../../../core/services/pokemon.service';
 import { typeClass } from '../../../../utils/type-classes';
 
 @Component({
@@ -12,54 +11,63 @@ import { typeClass } from '../../../../utils/type-classes';
 export class PokemonDetailPage implements OnInit {
   pokemonId!: string;
   pokemonDetails: any;
-  pokemonDescription: string = '';
   pokemonImage: string = '';
+  pokemonDescription: string = '';
   tailwindClass: string = 'bg-grayscale-background';
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private pokemonService: PokemonService
+  ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
       this.pokemonId = params.get('id')!;
       if (this.pokemonId) {
         this.fetchPokemonDetails(this.pokemonId);
-        this.fetchPokemonDescription(this.pokemonId);
       }
     });
   }
 
-  async fetchPokemonDetails(id: string) {
-    try {
-      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
-      this.pokemonDetails = response.data;
+  /**
+   * Busca os detalhes do Pokémon da nossa API e reproduz o som.
+   * @param id ID do Pokémon.
+   */
+  fetchPokemonDetails(id: string): void {
+    this.pokemonService.getPokemonById(parseInt(id, 10)).subscribe(
+      (details) => {
+        this.pokemonDetails = details;
+        this.pokemonImage = details.image;
+        this.pokemonDescription = details.description;
 
-      const primaryType = _.get(this.pokemonDetails, 'types[0].type.name', 'normal');
+        const primaryType = details.types?.[0]?.name || 'normal';
+        this.tailwindClass = typeClass[primaryType] || 'bg-type-normal';
 
-      this.tailwindClass = typeClass[primaryType] || 'bg-type-normal';
-
-      this.pokemonImage = _.get(
-        this.pokemonDetails,
-        'sprites.other["official-artwork"].front_default',
-        ''
-      );
-    } catch (error) {
-      console.error('Erro ao buscar os detalhes do Pokémon:', error);
-    }
+        // Reproduz o som do Pokémon
+        this.playPokemonSound(details.sound);
+      },
+      (error) => {
+        console.error('Erro ao buscar os detalhes do Pokémon:', error);
+      }
+    );
   }
 
-  async fetchPokemonDescription(id: string) {
-    try {
-      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon-species/${id}/`);
-      const descriptions = response.data.flavor_text_entries;
+  /**
+   * Reproduz o som do Pokémon.
+   * @param soundUrl URL do som.
+   */
+  playPokemonSound(soundUrl: string): void {
+    const audio = new Audio(soundUrl);
+    audio.play().catch((error) => {
+      console.error('Erro ao reproduzir o som do Pokémon:', error);
+    });
+  }
 
-      // Busca a descrição no idioma inglês
-      const englishDescription = descriptions.find(
-        (entry: any) => entry.language.name === 'en'
-      )?.flavor_text;
-
-      this.pokemonDescription = englishDescription?.replace(/[\n\f]/g, ' ') || 'Description not available.';
-    } catch (error) {
-      console.error('Erro ao buscar a descrição do Pokémon:', error);
-    }
+  /**
+   * Navega de volta para a página inicial.
+   */
+  goBack(): void {
+    this.router.navigate(['/']);
   }
 }

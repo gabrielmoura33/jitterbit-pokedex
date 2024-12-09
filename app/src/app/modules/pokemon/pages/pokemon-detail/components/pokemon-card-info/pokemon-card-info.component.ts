@@ -9,14 +9,14 @@ export class PokemonCardInfoComponent {
   @Input() pokemonDetails: any;
 
   get weight(): string {
-    return `${(this.pokemonDetails?.weight || 0) / 10} kg`;
+    return `${(this.pokemonDetails?.weight.toFixed(2) || 0)} kg`;
   }
 
   get height(): string {
-    return `${(this.pokemonDetails?.height || 0) / 10} m`;
+    return `${(this.pokemonDetails?.height.toFixed(2) || 0)} m`;
   }
 
   get abilities(): string[] {
-    return this.pokemonDetails?.abilities?.map((ability: any) => ability.ability.name) || [];
+    return this.pokemonDetails?.abilities?.map((ability: any) => ability.name) || [];
   }
 }

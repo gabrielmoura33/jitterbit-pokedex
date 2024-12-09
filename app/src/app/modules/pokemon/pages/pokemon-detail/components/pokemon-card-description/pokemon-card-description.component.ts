@@ -10,7 +10,7 @@ export class PokemonCardDescriptionComponent {
   @Input() pokemonDetails: any;
 
   getTypeClass(): string {
-    const primaryType = this.pokemonDetails?.types?.[0]?.type?.name || 'normal';
+    const primaryType = this.pokemonDetails?.types?.[0]?.name || 'normal';
     return textTypeClass[primaryType] || 'text-type-normal';
   }
 }
