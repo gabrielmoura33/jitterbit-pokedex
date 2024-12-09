@@ -9,7 +9,8 @@ module.exports = {
         '760': '640px',
       },
       boxShadow: {
-        'pokemon-card': '0px 1px 3px 1px rgba(0, 0, 0, 0.20)'
+        'pokemon-card': '0px 1px 3px 1px rgba(0, 0, 0, 0.20)',
+        'pokemon-detail-card': '0px 1px 3px 1px rgba(0, 0, 0, 0.25)'
       },
       fontFamily: {
         poppins: ['"Poppins"', 'sans-serif'],
@@ -44,6 +45,21 @@ module.exports = {
           light: '#E0E0E0',
           background: '#EFEFEF',
           white: '#FFFFFF',
+        },
+      },
+      animation: {
+        'slide-in-left': 'slideInLeft 0.5s ease-out forwards',
+      },
+      keyframes: {
+        slideInLeft: {
+          '0%': {
+            transform: 'translateX(-10%)',
+            opacity: '0',
+          },
+          '100%': {
+            transform: 'translateX(0)',
+            opacity: '1',
+          },
         },
       },
     },
