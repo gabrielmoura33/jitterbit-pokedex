@@ -17,6 +17,6 @@ export class PokemonCardInfoComponent {
   }
 
   get abilities(): string[] {
-    return this.pokemonDetails?.abilities?.map((ability: any) => ability.name) || [];
+    return this.pokemonDetails?.abilities?.map((ability: any) => ability) || [];
   }
 }

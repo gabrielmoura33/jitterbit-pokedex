@@ -41,7 +41,7 @@ export class PokemonDetailPage implements OnInit {
         this.pokemonImage = details.image;
         this.pokemonDescription = details.description;
 
-        const primaryType = details.types?.[0]?.name || 'normal';
+        const primaryType = details.types?.[0] || 'normal';
         this.tailwindClass = typeClass[primaryType] || 'bg-type-normal';
 
         // Reproduz o som do Pokémon

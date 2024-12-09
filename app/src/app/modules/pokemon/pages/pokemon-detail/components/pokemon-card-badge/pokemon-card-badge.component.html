@@ -1,7 +1,7 @@
 <div class="flex align-center justify-center p-6 gap-2">
   <div *ngFor="let type of pokemonDetails?.types"
        class="px-6 py-2 rounded-full text-grayscale-white font-bold cursor-pointer hover:opacity-70 transition-opacity"
-       [ngClass]="getTypeClass(type.name)">
-    {{ type?.name | titlecase }}
+       [ngClass]="getTypeClass(type)">
+    {{ type | titlecase }}
   </div>
 </div>
